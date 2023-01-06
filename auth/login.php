@@ -7,16 +7,15 @@
 </head>
 <body>
 <?php
-    require('../config/db_config.php');
+    include('../config/db_config.php');
     session_start();
     // When form submitted, check and create user session.
     if (isset($_POST['username'])) {
-        $username = $_REQUEST['username'];
-        $password = $_REQUEST['password'];
+        $username = $_POST['username'];
+        $password = $_POST['password'];
         // Check user is exist in the database
-        $query    = "SELECT * FROM `users` WHERE username='$username'
-                     AND password='" . md5($password) . "'";
-        $result = mysqli_query($connection, $query) or die(mysql_error());
+        $query    = "SELECT * FROM `users` WHERE username='$username' AND password='" . md5($password) . "'";
+        $result = mysqli_query($connection, $query);
         $rows = mysqli_num_rows($result);
         if ($rows == 1) {
             $_SESSION['username'] = $username;
@@ -32,7 +31,9 @@
     <form class="form" method="post" name="login">
         <h1 class="login-title">Login</h1>
         <input type="text" class="login-input" name="username" placeholder="Username" autofocus="true"/>
+
         <input type="password" class="login-input" name="password" placeholder="Password"/>
+
         <input type="submit" value="Login" name="submit" class="login-button"/>
         <p class="link"><a href="registration.php">New Registration</a></p>
   </form>
